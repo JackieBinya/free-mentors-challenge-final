@@ -1,0 +1,615 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat:400,500,700&display=swap');
+
+*{
+    margin: 0;
+    box-sizing: border-box;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.container,.container-secondary{
+  max-width: 90%;
+  margin: 0rem auto;
+  font-size: 0.9rem;
+}
+
+.container-secondary {
+  background-color: whitesmoke;
+  padding: 1em;
+}
+
+@media only screen and (min-width: 1025px) {
+  .container-secondary {
+    max-width: 70%;
+    min-height: 75vh;
+  }
+}
+/***************************************************************************************************************
+*Hero and NavBar styling
+********************** ***********************************************************************/
+.large {
+  display: none;
+}
+
+header  {
+    width: 100%;
+    padding: 1em;
+    display: flex;
+    align-items: center;
+    justify-content: space-between; 
+    background: white;
+ }
+
+ header a {
+   text-decoration: none;
+   color: black;
+   cursor: pointer;
+ }
+
+ header a:hover {
+   color: rgb(0, 0, 255);
+ }
+
+ header a.logo {
+   font-weight: bold;
+   text-transform: uppercase; 
+   font-size: 1.5rem;
+ }
+
+ header ul {
+   margin: 0;
+   padding: 0;
+   list-style-type: none;
+   display: flex;
+   align-items: center;
+   justify-content: space-around;
+   width: 100%;
+ }
+
+ header li a {
+   font-weight: 500;
+   padding: 1.5em;
+ }
+
+.hero {
+    background: url('./assets/hero.jpg') no-repeat;
+    background-size: cover;
+    height: 60vh;
+    width: 100vw;
+    position: relative;
+  }
+
+  @media only screen and (min-width: 1025px) {
+    .hero {
+      width: auto;
+      height: 92.85vh;
+      height: auto;
+    }
+
+    .small {
+      display: none;
+    }
+
+    .large {
+      display: inline;
+    }
+  }
+  
+  .hero-overlay {
+    background: rgb(25, 25, 112, 0.4);
+    position: absolute;
+    z-index: 15;
+    height: 100%;
+    width: 100%;
+  }
+
+  .hero-content h2{
+    position: absolute;
+    z-index: 18;
+    color: white;
+    text-align: center;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  .hero-content .qoute {
+    display: block;
+  }
+ /***************************************************************************************************************
+*Home page content
+********************** ***********************************************************************/
+ .wrapper {
+   display:grid;
+   grid-template-columns: auto;
+   font-size: 0.9rem;
+ }
+
+ .about {
+   background: lightblue;
+ }
+
+ .intro, .about{
+   padding: 2em;
+ }
+
+ .intro .headline {
+    font-weight: 500;
+    margin-bottom: 0.5em; 
+ }
+
+ .open-btn {
+   outline: none;
+   border: none;
+   background: transparent;
+   cursor: pointer;
+ }
+
+ .open-btn {
+  font-size: 1.5em;
+ }
+
+ .btn-start {
+  display: block;
+  padding: 1em 3.5em;
+  text-align: center;
+  width: 100%;
+  margin-top: 1em;
+  background-color: rgb(0, 0, 255);
+  color: white;
+  font-weight: bold;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-bottom: 1em;
+  text-decoration: none;
+  text-transform: uppercase;
+  outline: none;
+  border: none;
+ }
+ 
+ .btn-start:hover {
+    background-color: rgb(9, 9, 129);
+ }
+
+ .link-headline {
+   display: inline-block;
+ }
+
+ @media only screen and (min-width: 768px) {
+   .inner {
+     width: 80%;
+     margin: 0 auto;
+   }
+
+   .link-headline {
+     margin-left: 8.5em;
+   }
+ }
+
+ @media only screen and (min-width: 1024px){
+  .inner {
+    width: 60%;
+    margin: 0 auto;
+  }
+  
+ }
+
+ @media only screen and (min-width: 1025px){
+   .inner {
+      width: auto;
+      margin: auto;
+   }
+
+   .link-headline {
+     margin-left: auto;
+   }
+
+  .wrapper {
+    grid-template-columns: 70% auto;
+    grid-template-rows: 40% auto;
+    grid-template-areas:
+      "hero intro"
+      "hero about"
+  } 
+
+  section.hero {
+    grid-area: hero;
+  }
+} 
+/***************************************************************************************************************
+*Sidebar 
+********************** ***********************************************************************/
+.sidebar-nav, .sidebar-nav00 {
+  display: none; 
+  position: absolute;
+  z-index: 1000;
+  background-color: rgba(0, 0, 128);
+  transition: 1s;
+  top: 0;
+  right: 0;
+  width: 100%;
+  height: auto;
+  font-size: 0.9em;
+  border-radius: 5px;
+  padding: 1em;
+}
+
+.sidebar-nav a, .sidebar-nav00 a {
+  display: block;
+  color: white;
+  text-decoration: none;
+  font-size: 0.9rem;
+  line-height: 2em;
+}
+
+.sidebar-nav a:hover,  .sidebar-nav00 a:hover {
+  color: lightskyblue;
+}
+
+.sidebar-nav-logo  {
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+.close-btn {
+  color: white;
+  font-size: 2.5em;
+  outline: none;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+.logo-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+@media only screen and (min-width: 768px) {
+  .sidebar-nav {
+    width: 30%;
+    height: auto;
+  }
+}
+
+@media only screen and (min-width: 1024px) {
+  .sidebar-nav, .sidebar-nav00 {
+    width: 25%;
+    height: 17%;
+  }
+}
+/************************************************
+* Card styling
+/**********************************************************************************/
+ main {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+}
+ 
+.card {
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  padding: 1em;
+  margin: 2em;
+  transition: transform 1s;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.card:hover {
+  transform: translateY(-10px);
+}
+ .card img {
+   width: 100%;
+   height: 200px;
+ }
+
+ .image-container {
+   text-align: center;
+   margin: 0.5em;
+ }
+
+ .bio {
+   margin: 1em 0em;
+ }
+
+/************************************************
+* Show mentor styling
+/**********************************************************************************/
+.adjust{
+  background-color: whitesmoke;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  padding: 1em;
+}
+
+.info .image-container {
+  margin-bottom: 1em;
+}
+
+.info img {
+  height: 200px;
+  width: 200px;
+  border-radius: 50%;
+}
+
+.info-inner {
+  margin-bottom: 1em;
+}
+
+.back a, .request-btn a {
+  text-decoration: none;
+  color: black;
+}
+
+.back a:hover {
+  color: blue;
+}
+
+@media only screen and (min-width: 1024px) {
+  .info .image-container {
+    margin-bottom: 1em;
+  }
+
+  .adjust {
+    max-width: 60%;
+    margin: 0 auto;
+    padding: 1.5em;
+  }
+}
+
+/************************************************
+* Sessions styling
+/**********************************************************************************/
+ul {
+  padding: 0;
+  margin: 0;
+}
+
+ul li {
+  list-style: none;
+} 
+
+.list-item {
+  background-color: white;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  padding: 1em;
+  margin-bottom: 1em;
+}
+
+.list-item-headline {
+  border-bottom: 2px solid gainsboro;
+  padding-bottom: 0.5em;
+  margin-bottom: 0.5em;
+}
+
+.questions {
+  margin-bottom: 1em;
+}
+
+.questions ol li {
+  list-style: decimal;
+}
+
+.display-btn, .hide-btn {
+  text-align: right;
+}
+
+.clipper {
+  display: none;
+}
+
+.date {
+  color:gray;
+  font-weight: 500;
+  border-left: 2px solid blue;
+  margin-bottom: 0.5em;
+  padding-left: 0.5em;
+}
+
+.list-item .prop {
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+.more, .hide {
+  font-size: 1.2rem;
+  outline: none;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+.more:hover, .hide:hover {
+  outline: none;
+  background-color: transparent;
+}
+
+.btn {
+  display: block;
+  padding: 1em 3.5em;
+  text-align: center;
+  width: 250px;
+  margin-top: 1em;
+  background-color: rgb(0, 0, 255);
+  color: white;
+  font-weight: bold;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-bottom: 1em;
+  text-decoration: none;
+  text-transform: uppercase;
+  outline: none;
+  border: none;
+ }
+
+ .btn a{
+  color: white;
+  text-decoration: none;
+ }
+ 
+ .btn:hover {
+    background-color: rgb(9, 9, 129);
+ }
+
+.btn-secondary{
+  width: 180px;
+}
+ .danger {
+   background-color: red;
+ }
+
+ .danger:hover{
+   background-color: darkred;
+ }
+
+
+@media only screen and (min-width: 768px) {
+  .container {
+    min-width: 80%;;
+  }
+
+  .btn-secondary{
+    display: inline;
+    margin-right: 0.5em;
+  }
+}
+
+/************************************************
+* Session  request styling and Form Styling
+/**********************************************************************************/
+.session-title {
+  margin-bottom: 1em;
+}
+
+.sessionForm div, .signUpForm div, .signInForm div  {
+  margin: 1em 0;
+}
+
+.sessionForm input, .signUpForm div input, .sessionForm div textarea, .signUpForm div textarea, .signInForm input {
+  width: 100%;
+  padding: 0.5em;
+  font-size: 0.8rem;
+  border: 1px solid rgb(151, 149, 149);
+  border-radius: 5px;  
+}
+
+.sessionForm button {
+  width: 100%;
+}
+
+@media only screen and (min-width: 768px){
+  .sessionForm, .signUpForm, .signInForm{
+    width: 40%;
+    margin: 0 auto;
+  }
+  
+}
+
+  @media only screen and (min-width: 1024px){
+    .form-container {
+      height: 90vh;
+      position: fixed;
+      top: 25%;
+      bottom: 20%;
+      right: 10%;
+      left: 10%;
+    } 
+    
+    .sessionForm , .signUpForm, .signInForm {
+      width: 50%;
+      margin: 0 auto;
+      background-color: whitesmoke;
+      box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+      padding: 2em;
+    }
+
+   
+  }
+
+    
+/************************************************
+* Become a mentor styling
+/**********************************************************************************/
+.become-mentor p {
+  margin-bottom: 1em;
+}
+
+.mentorForm {
+  margin-top: 1em;
+}
+
+.become-mentor button {
+  display: block;
+  margin-top: 1em;
+}
+  
+/************************************************
+* Footer styling
+/**********************************************************************************/
+footer {
+  background-color: rgb(0, 0, 0);
+  padding: 2em;
+  font-size: 0.8rem;
+  margin-top: 3em;
+}
+
+footer a {
+display: block;
+text-decoration: none;
+cursor: pointer;
+line-height: 2.2em;
+}
+
+footer, footer a.logo {
+color: rgb(214, 203, 203);
+}
+
+footer a.logo {
+font-size: 1.2rem;
+text-transform: uppercase;
+display: block;
+margin-bottom: 0.8em;
+}
+
+footer a:hover {
+color: lightblue;
+}
+
+.resources {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1em;
+}
+
+.resources a {
+  color: rgb(255, 255, 255);
+}
+
+.block-headliner {
+  text-transform: uppercase;
+}
+
+.social-links1 {
+display: none;
+}
+
+.social-links a {
+display: inline;
+}
+
+.social-links a {
+display: inline-block
+}
+.social-links {
+margin-bottom: 3em;
+}
+
+@media only screen and (min-width: 1025px) {
+.social-links1 {
+  display: block;
+}
+
+.social-links {
+  display: none;
+  }
+}

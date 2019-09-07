@@ -1,0 +1,756 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "Free Mentors is a social initiative where accomplished professionals become role models to young people to provide free mentorship sessions.",
+    "version": "1.0.0",
+    "title": "Free Mentors",
+    "contact": {
+      "email": "jacquelinebinya@gmail.com"
+    },
+    "license": {
+      "name": "MIT",
+      "url": "https://github.com/JackieBinya/free-mentors-challenge-2"
+    }
+  },
+  "securityDefinitions": {
+    "APIKeyHeader": {
+      "type": "apiKey",
+      "in": "header",
+      "name": "x-auth-token"
+    }
+  },
+  "tags": [
+    {
+      "name": "Users",
+      "description": "Operations about user"
+    },
+    {
+      "name": "Mentors",
+      "description": "Operations about mentors"
+    },
+    {
+      "name": "Sessions",
+      "description": "Operations about sessions"
+    }
+  ],
+  "schemes": [
+    "https",
+    "http"
+  ],
+  "paths": {
+    "/auth/signup": {
+      "post": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Register a new user",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "user",
+            "description": "The user to register/signup",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "required": [
+                "firstName",
+                "lastName",
+                "email",
+                "password",
+                "address",
+                "occupation",
+                "bio",
+                "expertise"
+              ],
+              "properties": {
+                "firstName": {
+                  "type": "string",
+                  "example": "Cindy"
+                },
+                "lastName": {
+                  "type": "string",
+                  "example": "Bar"
+                },
+                "email": {
+                  "type": "string",
+                  "format": "email",
+                  "example": "cindy@bar.com"
+                },
+                "password": {
+                  "type": "string",
+                  "format": "password",
+                  "example": "123456a"
+                },
+                "address": {
+                  "type": "string",
+                  "example": "4 De Wet Terraces, Goodwood"
+                },
+                "occupation": {
+                  "type": "string",
+                  "example": "Software Developer"
+                },
+                "bio": {
+                  "type": "string",
+                  "example": "I am a full-stack Web Application Developer and Software Developer. I have a Bachelor of Science in Computer Science from University of Capetown, and my primary focus and inspiration for my studies is Web Development. In my free time, I study human computer interface and the psychology of human computer interaction. I am both driven and self-motivated, and I am constantly experimenting with new technologies and techniques. I am very passionate about Web Development"
+                },
+                "expertise": {
+                  "type": "string",
+                  "example": "Javascript, React, Angular, Python"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "New user registered",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                },
+                "status": {
+                  "type": "integer",
+                  "description": "http status code 201"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "token": {
+                      "type": "string",
+                      "description": "json web token"
+                    },
+                    "firstName": {
+                      "type": "string",
+                      "description": "registered user's first name"
+                    },
+                    "lastName": {
+                      "type": "string",
+                      "description": "registerd user's last name"
+                    },
+                    "email": {
+                      "type": "string",
+                      "format": "email",
+                      "description": "registerd user's email"
+                    },
+                    "address": {
+                      "type": "string",
+                      "description": "user's address"
+                    },
+                    "bio": {
+                      "type": "string",
+                      "description": "users's bio"
+                    },
+                    "occupation": {
+                      "type": "string",
+                      "description": "user's occupation"
+                    },
+                    "expertise": {
+                      "type": "string",
+                      "description": "users's expertise"
+                    },
+                    "role": {
+                      "type": "string"
+                    },
+                    "isAdmin": {
+                      "type": "boolean"
+                    },
+                    "id": {
+                      "type": "integer"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid input"
+          },
+          "500": {
+            "description": "Database error"
+          }
+        }
+      }
+    },
+    "/auth/signin": {
+      "post": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Authenticate an existing user",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "user",
+            "description": "The user to sign in.",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "required": [
+                "email",
+                "password"
+              ],
+              "properties": {
+                "email": {
+                  "type": "string",
+                  "format": "email"
+                },
+                "password": {
+                  "type": "string",
+                  "format": "password"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User authenticated",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                },
+                "status": {
+                  "type": "integer",
+                  "description": "http status code 200"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "token": {
+                      "type": "string",
+                      "description": "json web token"
+                    },
+                    "firstName": {
+                      "type": "string",
+                      "description": "registered user's first name"
+                    },
+                    "lastName": {
+                      "type": "string",
+                      "description": "registerd user's last name"
+                    },
+                    "email": {
+                      "type": "string",
+                      "format": "email",
+                      "description": "registerd user's email"
+                    },
+                    "address": {
+                      "type": "string",
+                      "description": "user's address"
+                    },
+                    "bio": {
+                      "type": "string",
+                      "description": "users's bio"
+                    },
+                    "occupation": {
+                      "type": "string",
+                      "description": "user's occupation"
+                    },
+                    "expertise": {
+                      "type": "string",
+                      "description": "users's expertise"
+                    },
+                    "role": {
+                      "type": "string"
+                    },
+                    "isAdmin": {
+                      "type": "boolean"
+                    },
+                    "id": {
+                      "type": "integer"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid input"
+          },
+          "500": {
+            "description": "Database error"
+          }
+        }
+      }
+    },
+    "/user/{userId}": {
+      "patch": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Changes a user account to a mentor",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "userId",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "security": [
+          {
+            "APIKeyHeader": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User account sucessfully changed",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                },
+                "status": {
+                  "type": "integer",
+                  "description": "http status code 200"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "token": {
+                      "type": "string",
+                      "description": "json web token"
+                    },
+                    "firstName": {
+                      "type": "string",
+                      "description": "registered user's first name"
+                    },
+                    "lastName": {
+                      "type": "string",
+                      "description": "registerd user's last name"
+                    },
+                    "email": {
+                      "type": "string",
+                      "format": "email",
+                      "description": "registerd user's email"
+                    },
+                    "address": {
+                      "type": "string",
+                      "description": "user's address"
+                    },
+                    "bio": {
+                      "type": "string",
+                      "description": "users's bio"
+                    },
+                    "occupation": {
+                      "type": "string",
+                      "description": "user's occupation"
+                    },
+                    "expertise": {
+                      "type": "string",
+                      "description": "users's expertise"
+                    },
+                    "role": {
+                      "type": "string"
+                    },
+                    "isAdmin": {
+                      "type": "boolean"
+                    },
+                    "id": {
+                      "type": "integer"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The specified user ID is invalid (e.g. not a number)."
+          },
+          "401": {
+            "description": "Unauthourized access"
+          },
+          "500": {
+            "description": "Database error"
+          }
+        }
+      }
+    },
+    "/mentors": {
+      "get": {
+        "tags": [
+          "Mentors"
+        ],
+        "summary": "Return all mentors in the application",
+        "produces": [
+          "application/json"
+        ],
+        "security": [
+          {
+            "APIKeyHeader": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "integer"
+                },
+                "data": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "mentorId": {
+                        "type": "integer"
+                      },
+                      "firstName": {
+                        "type": "string",
+                        "description": "Mentor's first name"
+                      },
+                      "lastName": {
+                        "type": "string",
+                        "description": "Mentor's last name"
+                      },
+                      "email": {
+                        "type": "string",
+                        "format": "email",
+                        "description": "Mentor's email"
+                      },
+                      "address": {
+                        "type": "string",
+                        "description": "Mentor's address"
+                      },
+                      "bio": {
+                        "type": "string",
+                        "description": "Mentor's bio"
+                      },
+                      "occupation": {
+                        "type": "string",
+                        "description": "Mentor's occupation"
+                      },
+                      "expertise": {
+                        "type": "string",
+                        "description": "Mentor's expertise"
+                      },
+                      "role": {
+                        "type": "string"
+                      },
+                      "isAdmin": {
+                        "type": "boolean"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthourized access"
+          },
+          "404": {
+            "description": "Mentors not found"
+          },
+          "500": {
+            "description": "Database error"
+          }
+        }
+      }
+    },
+    "/mentors/{mentorId}": {
+      "get": {
+        "tags": [
+          "Mentors"
+        ],
+        "summary": "Return all mentors in the application",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "mentorId",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "security": [
+          {
+            "APIKeyHeader": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "integer"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "mentorId": {
+                      "type": "integer"
+                    },
+                    "firstName": {
+                      "type": "string",
+                      "description": "Mentor's first name"
+                    },
+                    "lastName": {
+                      "type": "string",
+                      "description": "Mentor's last name"
+                    },
+                    "email": {
+                      "type": "string",
+                      "format": "email",
+                      "description": "Mentor's email"
+                    },
+                    "address": {
+                      "type": "string",
+                      "description": "Mentor's address"
+                    },
+                    "bio": {
+                      "type": "string",
+                      "description": "Mentor's bio"
+                    },
+                    "occupation": {
+                      "type": "string",
+                      "description": "Mentor's occupation"
+                    },
+                    "expertise": {
+                      "type": "string",
+                      "description": "Mentor's expertise"
+                    },
+                    "role": {
+                      "type": "string"
+                    },
+                    "isAdmin": {
+                      "type": "boolean"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthourized access"
+          },
+          "404": {
+            "description": "Mentor not found"
+          },
+          "500": {
+            "description": "Database error"
+          }
+        }
+      }
+    },
+    "/sessions": {
+      "post": {
+        "tags": [
+          "Sessions"
+        ],
+        "summary": "Create a mentorship session request",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "session",
+            "description": "The session to be created",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "required": [
+                "mentorId",
+                "questions"
+              ],
+              "properties": {
+                "mentorId": {
+                  "type": "integer"
+                },
+                "questions": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "security": [
+          {
+            "APIKeyHeader": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "sessionId": {
+                  "type": "integer"
+                },
+                "mentorId": {
+                  "type": "integer"
+                },
+                "menteeId": {
+                  "type": "integer"
+                },
+                "questions": {
+                  "type": "string"
+                },
+                "status": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid input"
+          },
+          "401": {
+            "description": "Unauthorised access"
+          },
+          "500": {
+            "description": "Database error"
+          }
+        }
+      }
+    },
+    "/sessions/{sessionId}/accept": {
+      "patch": {
+        "tags": [
+          "Sessions"
+        ],
+        "summary": "A mentor can accept a mentorship session request.",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "sessionId",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "security": [
+          {
+            "APIKeyHeader": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "sessionId": {
+                  "type": "integer"
+                },
+                "mentorId": {
+                  "type": "integer"
+                },
+                "menteeId": {
+                  "type": "integer"
+                },
+                "questions": {
+                  "type": "string"
+                },
+                "status": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid sessionId"
+          },
+          "401": {
+            "description": "Unauthorised access"
+          },
+          "500": {
+            "description": "Database error"
+          }
+        }
+      }
+    },
+    "/sessions/{sessionId}/decline": {
+      "patch": {
+        "tags": [
+          "Sessions"
+        ],
+        "summary": "A mentor can decline a mentorship session request",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "sessionId",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "security": [
+          {
+            "APIKeyHeader": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "sessionId": {
+                  "type": "integer"
+                },
+                "mentorId": {
+                  "type": "integer"
+                },
+                "menteeId": {
+                  "type": "integer"
+                },
+                "questions": {
+                  "type": "string"
+                },
+                "status": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid sessionId"
+          },
+          "401": {
+            "description": "Unauthorised access"
+          },
+          "500": {
+            "description": "Database error"
+          }
+        }
+      }
+    }
+  },
+  "host": "virtserver.swaggerhub.com",
+  "basePath": "/Student791/FreeMentors/1.0.0"
+}
