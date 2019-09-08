@@ -1,58 +1,76 @@
 import User from '../models/User';
 
 class MentorController {
-  static viewMentors(req, res) {
-    const result = User.findMentors();
-    const mentors = result.map(({
-      id: mentorId, firstName, lastName, email, address, occupation, bio, expertise, role, isAdmin,
-    }) => ({
-      mentorId, firstName, lastName, email, address, occupation, bio, expertise, role, isAdmin,
-    }));
+  static async viewMentors(req, res) {
+    try {
+      const rows = await User.findMentors();
 
-    if (mentors.length) {
-      return res.status(200).json({
-        status: 200,
-        message: 'SUCCESS',
-        data: mentors,
+      const mentors = rows.map(({
+        id: mentorId, first_name: firstName, last_name: lastName, email, address, occupation,
+        bio, expertise, role, is_admin: isAdmin,
+      }) => ({
+        mentorId, firstName, lastName, email, address, occupation, bio, expertise, role, isAdmin,
+      }));
+
+      if (rows.length) {
+        return res.status(200).json({
+          status: 200,
+          message: 'SUCCESS',
+          data: mentors,
+        });
+      }
+
+      return res.status(404).json({
+        status: 404,
+        error: 'No mentors have been found.',
+      });
+    } catch (err) {
+      return res.status(500).json({
+        status: 500,
+        error: err.error,
       });
     }
-    return res.status(404).json({
-      status: 404,
-      error: 'No mentors have been found.',
-    });
   }
 
-  static viewSpecificMentor(req, res) {
+  static async viewSpecificMentor(req, res) {
     const { mentorId: id00 } = req.params;
-    const result = User.findOne(id00);
 
-    if (result && result.role === 'mentor') {
-      const {
-        id: mentorId, firstName, lastName, email, address, occupation, bio, expertise,
-        role, isAdmin,
-      } = result;
+    try {
+      const rows = await User.findOne(id00);
 
-      return res.status(200).json({
-        status: 200,
-        message: 'SUCCESS',
-        data: {
-          mentorId,
-          firstName,
-          lastName,
-          email,
-          address,
-          occupation,
-          bio,
-          expertise,
-          role,
-          isAdmin,
-        },
+      if (rows.length && rows[0].role === 'mentor') {
+        const {
+          id: mentorId, first_name: firstName, last_name: lastName, email, address, occupation,
+          bio, expertise, role, is_admin: isAdmin,
+        } = rows[0];
+
+        return res.status(200).json({
+          status: 200,
+          message: 'SUCCESS',
+          data: {
+            mentorId,
+            firstName,
+            lastName,
+            email,
+            address,
+            occupation,
+            bio,
+            expertise,
+            role,
+            isAdmin,
+          },
+        });
+      }
+      return res.status(404).json({
+        status: 404,
+        error: 'Mentor not found!',
+      });
+    } catch (err) {
+      return res.status(500).json({
+        status: 500,
+        error: err.error,
       });
     }
-    return res.status(404).json({
-      status: 404,
-      error: 'Mentor not found!',
-    });
   }
 }
 

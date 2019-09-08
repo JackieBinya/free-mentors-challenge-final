@@ -4,26 +4,41 @@ import User from '../models/User';
 import Session from '../models/Session';
 
 class Verify {
-  static verifyNewUser(req, res, next) {
-    const user = User.findByEmail(req.body.email.trim());
-    if (user) {
-      return res.status(400).json({
-        status: 400,
-        error: 'Email already in use.',
+  static async verifyNewUser(req, res, next) {
+    try {
+      const rows = await User.findByEmail(req.body.email.trim());
+      if (rows.length) {
+        return res.status(400).json({
+          status: 400,
+          error: 'Email already in use.',
+        });
+      }
+    } catch (err) {
+      return res.status(500).json({
+        status: 500,
+        error: err.error,
       });
     }
 
     next();
   }
 
-  static verifyExistingUser(req, res, next) {
-    const user = User.findByEmail(req.body.email.trim());
-    if (!user) {
-      return res.status(400).json({
-        status: 400,
-        error: 'Invalid email',
+  static async verifyExistingUser(req, res, next) {
+    try {
+      const rows = await User.findByEmail(req.body.email.trim());
+      if (!rows.length) {
+        return res.status(400).json({
+          status: 400,
+          error: 'Invalid email',
+        });
+      }
+    } catch (err) {
+      return res.status(500).json({
+        status: 500,
+        error: err.error,
       });
     }
+
     next();
   }
 
@@ -44,101 +59,166 @@ class Verify {
           error: 'No authorisation, token invalid!',
         });
       }
+
       req.decoded = decoded;
+
       next();
     });
   }
 
-  static checkUser(req, res, next) {
+  static async checkUser(req, res, next) {
     const { userId } = req.params;
-    const user = User.findOne(userId);
-    if (!user) {
-      return res.status(400).json({
-        status: 400,
-        error: `The user with id ${userId} does not exist in the app!`,
+    try {
+      const rows = await User.findOne(userId);
+      if (!rows.length) {
+        return res.status(400).json({
+          status: 400,
+          error: `The user with id ${userId} does not exist in the app!`,
+        });
+      }
+    } catch (err) {
+      return res.status(500).json({
+        status: 500,
+        error: err.error,
       });
     }
+
     next();
   }
 
-  static verifyUser(req, res, next) {
+  static async verifyUser(req, res, next) {
     const userId = req.decoded.payload;
-    const user = User.findOne(userId);
-    if (!user) {
-      return res.status(403).json({
-        status: 403,
-        error: `The user with id ${userId} does not exist in the app!`,
+    try {
+      const rows = await User.findOne(userId);
+      if (!rows.length) {
+        return res.status(403).json({
+          status: 403,
+          error: `The user with id ${userId} does not exist in the app!`,
+        });
+      }
+    } catch (err) {
+      return res.status(500).json({
+        status: 500,
+        error: err.error,
       });
     }
+
     next();
   }
 
-  static verifyAdmin(req, res, next) {
+  static async verifyAdmin(req, res, next) {
     const id = req.decoded.payload;
-    const user = User.findOne(id);
-    if (!user || !user.isAdmin) {
-      return res.status(403).json({
-        status: 403,
-        error: 'Not an admin',
+    try {
+      const rows = await User.findOne(id);
+      if (!rows.length || !rows[0].is_Admin) {
+        return res.status(403).json({
+          status: 403,
+          error: 'Not an admin',
+        });
+      }
+    } catch (err) {
+      return res.status(500).json({
+        status: 500,
+        error: err.error,
       });
     }
+
     next();
   }
 
-  static checkMentor(req, res, next) {
+  static async checkMentor(req, res, next) {
     const { mentorId } = req.body;
-    const mentor = User.findOne(mentorId);
-    if (!mentor || mentor.role !== 'mentor') {
-      return res.status(400).json({
-        status: 400,
-        error: 'Not a mentor',
+    try {
+      const rows = User.findOne(mentorId);
+      if (!rows.length || rows[0].role !== 'mentor') {
+        return res.status(400).json({
+          status: 400,
+          error: 'Not a mentor',
+        });
+      }
+    } catch (err) {
+      return res.status(500).json({
+        status: 500,
+        error: err.error,
       });
     }
     next();
   }
 
-  static verifyMentor(req, res, next) {
+  static async verifyMentor(req, res, next) {
     const mentorId = req.decoded.payload;
-    const mentor = User.findOne(mentorId);
-    if (!mentor || mentor.role !== 'mentor') {
-      return res.status(403).json({
-        status: 403,
-        error: 'Not a mentor, no permission',
+    try {
+      const rows = await User.findOne(mentorId);
+      if (!rows.length || rows[0].role !== 'mentor') {
+        return res.status(403).json({
+          status: 403,
+          error: 'Not a mentor, no permission',
+        });
+      }
+    } catch (err) {
+      return res.status(500).json({
+        status: 500,
+        error: err.error,
       });
     }
+
     next();
   }
 
-  static verifySession(req, res, next) {
-    const result = Session.findOne(req.params.sessionId);
-    if (!result) {
-      return res.status(400).json({
-        status: 400,
-        error: `The session with id ${req.params.sessionId} does not exist in the app!`,
+  static async verifySession(req, res, next) {
+    try {
+      const rows = await Session.findOne(req.params.sessionId);
+      if (!rows.length) {
+        return res.status(400).json({
+          status: 400,
+          error: `The session with id ${req.params.sessionId} does not exist in the app!`,
+        });
+      }
+    } catch (err) {
+      return res.status(500).json({
+        status: 500,
+        error: err.error,
       });
     }
+
     next();
   }
 
-  static verifyStatusAccept(req, res, next) {
-    const result = Session.findOne(req.params.sessionId);
-    if (result.status === 'Accepted') {
-      return res.status(400).json({
-        status: 400,
-        error: 'Session has already been accepted',
+  static async verifyStatusAccept(req, res, next) {
+    try {
+      const rows = await Session.findOne(req.params.sessionId);
+      if (rows[0].status === 'Accepted') {
+        return res.status(400).json({
+          status: 400,
+          error: 'Session has already been accepted',
+        });
+      }
+    } catch (err) {
+      return res.status(500).json({
+        status: 500,
+        error: err.error,
       });
     }
+
     next();
   }
 
-  static verifyStatusDecline(req, res, next) {
-    const result = Session.findOne(req.params.sessionId);
-    if (result.status === 'Rejected') {
-      return res.status(400).json({
-        status: 400,
-        error: 'Session has already been rejected',
+  static async verifyStatusDecline(req, res, next) {
+    try {
+      const rows = await Session.findOne(req.params.sessionId);
+      if (rows.status === 'Rejected') {
+        return res.status(400).json({
+          status: 400,
+          error: 'Session has already been rejected',
+        });
+      }
+    } catch (err) {
+      return res.status(500).json({
+        status: 500,
+        error: err.error,
       });
     }
+
     next();
   }
 }
