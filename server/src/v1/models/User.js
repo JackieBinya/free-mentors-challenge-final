@@ -1,5 +1,3 @@
-import uuid from 'uuid';
-
 class User {
   constructor() {
     this.users = [];
@@ -21,7 +19,6 @@ class User {
       imageUrl: '',
       isAdmin: false,
       role: 'user',
-      id: uuid.v4(),
     };
     this.users.push(newUser);
     return newUser;
