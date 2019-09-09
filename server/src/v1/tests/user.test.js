@@ -12,7 +12,7 @@ import generateToken from '../utils/authService';
 chai.use(chaiHttp);
 const { expect, request } = chai;
 
-describe.only('POST /api/v1/auth/signup', () => {
+describe('POST /api/v1/auth/signup', () => {
   beforeEach(async () => {
     await pool.query('DELETE FROM users');
   });
@@ -86,7 +86,7 @@ describe.only('POST /api/v1/auth/signup', () => {
   });
 });
 
-describe('POST /api/v1/auth/signin', () => {
+describe.only('POST /api/v1/auth/signin', () => {
   beforeEach(async () => {
     await pool.query('DELETE FROM users');
   });
