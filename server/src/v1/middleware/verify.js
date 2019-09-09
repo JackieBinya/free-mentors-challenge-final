@@ -1,4 +1,3 @@
-/* eslint-disable consistent-return */
 import jwt from 'jsonwebtoken';
 import User from '../models/User';
 import Session from '../models/Session';

@@ -1,4 +1,3 @@
-/* eslint-disable consistent-return */
 import Joi from '@hapi/joi';
 import schema from './schema';
 

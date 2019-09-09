@@ -2,19 +2,19 @@ import Joi from '@hapi/joi';
 
 const schema = {
   signUpValidator: Joi.object().keys({
-    firstName: Joi.string().min(3).max(30)
+    firstName: Joi.string().trim().regex(/[a-zA-Z]{3,30}/)
       .required(),
-    lastName: Joi.string().min(3).max(30)
+    lastName: Joi.string().trim().regex(/[a-zA-Z]{3,30}/)
       .required(),
     email: Joi.string().email({ minDomainSegments: 2 }),
     password: Joi.string().regex(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/).required(),
-    address: Joi.string().min(3).max(30)
+    address: Joi.string().trim().min(3).max(128)
       .required(),
-    occupation: Joi.string().min(3).max(200)
+    occupation: Joi.string().trim().min(3).max(200)
       .required(),
-    bio: Joi.string().min(3).max(800)
+    bio: Joi.string().trim().min(3).max(800)
       .required(),
-    expertise: Joi.string().min(3).max(200)
+    expertise: Joi.string().trim().min(3).max(200)
       .required(),
   }),
 
