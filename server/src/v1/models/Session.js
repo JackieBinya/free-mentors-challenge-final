@@ -1,15 +1,10 @@
 import User from './User';
 
 class Session {
-  constructor() {
-    this.sessions = [];
-  }
-
   create(data) {
     const { mentorId, menteeId, questions } = data;
     const { email: menteeEmail } = User.findOne(menteeId);
     const newSession = {
-      id: uuid.v4(),
       mentorId,
       menteeId,
       questions,
@@ -47,10 +42,6 @@ class Session {
   findMentorSessions(id) {
     return this.sessions.filter(session => session.mentorId === id);
   }
-
-  remove() {
-    this.sessions = [];
-  }
 }
 
-export default new Session();
+export default Session;

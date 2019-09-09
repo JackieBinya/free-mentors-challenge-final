@@ -1,4 +1,3 @@
-/* eslint-disable consistent-return */
 import bcrypt from 'bcryptjs';
 import generateToken from '../utils/authService';
 import User from '../models/User';

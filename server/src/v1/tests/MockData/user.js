@@ -97,7 +97,7 @@ const User = {
     address: '4 De Wet Terraces, Godwood, Capetown',
     occupation: 'Software Engineer',
     bio: 'I am a full-stack Web Application Developer and Software Developer. I have a Bachelor of Science in Computer Science from University of Capetown, and my primary focus and inspiration for my studies is Web Development. In my free time, I study human computer interface and the psychology of human computer interaction. I am both driven and self-motivated, and I am constantly experimenting with new technologies and techniques. I am very passionate about Web Development',
-    expertise: '+/*',
+    expertise: '',
   },
 
   admin: {
