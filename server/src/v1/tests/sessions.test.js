@@ -2,6 +2,7 @@
 import chai from 'chai';
 import chaiHttp from 'chai-http';
 import app from '../app';
+import pool from '../db/configDB';
 import User from '../models/User';
 import data from './MockData/user';
 import '../../../../env';
@@ -12,9 +13,9 @@ chai.use(chaiHttp);
 const { expect, request } = chai;
 
 describe('POST /api/v1/sessions', () => {
-  beforeEach(() => {
-    User.remove();
-    Session.remove();
+  beforeEach(async () => {
+    await pool.query('DELETE FROM users');
+    await pool.query('DELETE FROM sessions');
   });
 
   let session = {};
@@ -37,9 +38,9 @@ describe('POST /api/v1/sessions', () => {
 });
 
 describe('PATCH /api/v1/sessions/:sessionId/reject', () => {
-  beforeEach(() => {
-    User.remove();
-    Session.remove();
+  beforeEach(async () => {
+    await pool.query('DELETE FROM users');
+    await pool.query('DELETE FROM sessions');
   });
 
   let sessionId = '';
@@ -102,9 +103,9 @@ describe('PATCH /api/v1/sessions/:sessionId/reject', () => {
 });
 
 describe('PATCH /api/v1/sessions/:sessionId/accept', () => {
-  beforeEach(() => {
-    User.remove();
-    Session.remove();
+  beforeEach(async () => {
+    await pool.query('DELETE FROM users');
+    await pool.query('DELETE FROM sessions');
   });
 
   let sessionId = '';
@@ -150,9 +151,9 @@ describe('PATCH /api/v1/sessions/:sessionId/accept', () => {
 });
 
 describe('GET /api/v1/sessions', () => {
-  beforeEach(() => {
-    User.remove();
-    Session.remove();
+  beforeEach(async () => {
+    await pool.query('DELETE FROM users');
+    await pool.query('DELETE FROM sessions');
   });
 
   let token = '';
