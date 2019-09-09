@@ -8,7 +8,7 @@ class Admin {
       const rows = await User.findAdmin();
       const salt = bcrypt.genSaltSync(10);
       const hash = bcrypt.hashSync(process.env.ADMIN_PASSWORD, salt);
-      if (!user) {
+      if (!rows.length) {
         User.createAdmin({
           firstName: 'admin',
           lastName: 'admin',
@@ -21,9 +21,11 @@ class Admin {
         });
       }
     } catch (err) {
-
+      return res.status(500).json({
+        status: 500,
+        error: err.error,
+      });
     }
-    
     next();
   }
 }
