@@ -6,6 +6,8 @@
   "scripts": {
     "start": "babel-node server/src/v1/app.js",
     "dev:start": "nodemon --exec babel-node server/src/v1/app.js",
+    "createTables": "babel-node server/src/v1/db/createTables.js",
+    "dropTables": "babel-node server/src/v1/db/dropTables.js",
     "test": "nyc mocha --require @babel/register './server/src/**/*.test.js' --timeout 1000000 --exit",
     "coveralls": "nyc report --reporter=text-lcov | coveralls"
   },
