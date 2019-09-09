@@ -3,6 +3,7 @@ import chai from 'chai';
 import chaiHttp from 'chai-http';
 import bcrypt from 'bcryptjs';
 import app from '../app';
+import pool from '../db/configDB';
 import User from '../models/User';
 import data from './MockData/user';
 import '../../../../env';
@@ -12,8 +13,8 @@ chai.use(chaiHttp);
 const { expect, request } = chai;
 
 describe('POST /api/v1/auth/signup', () => {
-  beforeEach(() => {
-    User.remove();
+  beforeEach(async () => {
+    await pool.query('DELETE FROM users');
   });
 
   let user = {};
@@ -86,8 +87,8 @@ describe('POST /api/v1/auth/signup', () => {
 });
 
 describe('POST /api/v1/auth/signin', () => {
-  beforeEach(() => {
-    User.remove();
+  beforeEach(async () => {
+    await pool.query('DELETE FROM users');
   });
 
   const user = {};
@@ -171,8 +172,8 @@ describe('POST /api/v1/auth/signin', () => {
 
 
 describe('PATCH /api/v1/user/:userId', () => {
-  beforeEach(() => {
-    User.remove();
+  beforeEach(async () => {
+    await pool.query('DELETE FROM users');
   });
 
   let userId = '';

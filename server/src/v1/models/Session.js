@@ -1,4 +1,3 @@
-import uuid from 'uuid';
 import User from './User';
 
 class Session {

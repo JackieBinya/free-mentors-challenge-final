@@ -1,7 +1,5 @@
  # Free Mentors
 
-[![Build Status](https://travis-ci.org/JackieBinya/free-mentors-challenge-2.svg?branch=develop)](https://travis-ci.org/JackieBinya/free-mentors-challenge-2) [![Coverage Status](https://coveralls.io/repos/github/JackieBinya/free-mentors-challenge-2/badge.svg?branch=develop)](https://coveralls.io/github/JackieBinya/free-mentors-challenge-2?branch=develop) [![Maintainability](https://api.codeclimate.com/v1/badges/66b1ea7d2f9031797098/maintainability)](https://codeclimate.com/github/JackieBinya/free-mentors-challenge-2/maintainability)
-
 Free Mentors is a social initiative where accomplished professionals become role models to young people to provide free mentorship sessions.
 
 ## Table of Contents

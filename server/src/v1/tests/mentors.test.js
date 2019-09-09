@@ -1,8 +1,8 @@
 /* eslint-env mocha */
 import chai from 'chai';
 import chaiHttp from 'chai-http';
-import bcrypt from 'bcryptjs';
 import app from '../app';
+import pool from '../db/configDB';
 import User from '../models/User';
 import data from './MockData/user';
 import '../../../../env';
@@ -12,8 +12,8 @@ chai.use(chaiHttp);
 const { expect, request } = chai;
 
 describe('GET /api/v1/mentors', () => {
-  beforeEach(() => {
-    User.remove();
+  beforeEach(async () => {
+    await pool.query('DELETE FROM users');
   });
 
   let token = '';
@@ -52,8 +52,8 @@ describe('GET /api/v1/mentors', () => {
 });
 
 describe('GET /api/v1/mentors:mentorId', () => {
-  beforeEach(() => {
-    User.remove();
+  beforeEach(async () => {
+    await pool.query('DELETE FROM users');
   });
 
   let token = '';
