@@ -1,3 +1,4 @@
+/* eslint-disable consistent-return */
 import bcrypt from 'bcryptjs';
 import '../../../../env';
 import User from '../models/User';

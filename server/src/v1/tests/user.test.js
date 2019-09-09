@@ -12,7 +12,7 @@ import generateToken from '../utils/authService';
 chai.use(chaiHttp);
 const { expect, request } = chai;
 
-describe('POST /api/v1/auth/signup', () => {
+describe.only('POST /api/v1/auth/signup', () => {
   beforeEach(async () => {
     await pool.query('DELETE FROM users');
   });
@@ -29,13 +29,13 @@ describe('POST /api/v1/auth/signup', () => {
     expect(res).to.have.status(400);
   });
 
-  it('should not sign up a user if lastname field is not filled', async () => {
+  it('should not sign up a user if lastname is invalid', async () => {
     user = { ...data.user02 };
     const res = await exec();
     expect(res).to.have.status(400);
   });
 
-  it('should not sign up a user if email field is not filled', async () => {
+  it('should not sign up a user if email is invalid', async () => {
     user = { ...data.user03 };
     const res = await exec();
     expect(res).to.have.status(400);

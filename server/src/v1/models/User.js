@@ -1,77 +1,32 @@
+import pool from '../db/configDB';
+
 class User {
-  constructor() {
-    this.users = [];
+  static async create({
+    firstName, lastName, email, address, password, occupation, bio, expertise,
+  }) {
+    const text = 'INSERT INTO users(first_name, last_name, email, password, address, occupation, bio, expertise) VALUES($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *';
+    const values = [firstName, lastName, email, password, address, occupation, bio, expertise];
+    const { rows } = await pool.query(text, values);
+    return rows;
   }
 
-  create(data) {
-    const {
-      firstName, lastName, email, address, password, occupation, bio, expertise,
-    } = data;
-    const newUser = {
-      firstName,
-      lastName,
-      email,
-      address,
-      password,
-      occupation,
-      bio,
-      expertise,
-      imageUrl: '',
-      isAdmin: false,
-      role: 'user',
-    };
-    this.users.push(newUser);
-    return newUser;
+  static async findByEmail(data) {
+    const { rows } = await pool.query('SELECT * FROM users WHERE email = $1', [data]);
+    return rows;
   }
 
-  createAdmin(data) {
-    const {
-      firstName, lastName, email, address, password, occupation, bio, expertise,
-    } = data;
-    const newUser = {
-      firstName,
-      lastName,
-      email,
-      address,
-      password,
-      occupation,
-      bio,
-      expertise,
-      imageUrl: '',
-      isAdmin: true,
-      role: '',
-      id: uuid.v4(),
-    };
-    this.users.push(newUser);
-    return newUser;
+  static async findAdmin() {
+    const { rows } = await pool.query('SELECT * FROM users WHERE is_admin = $1', [true]);
+    return rows;
   }
 
-  findByEmail(email) {
-    return this.users.find(user => user.email === email);
-  }
-
-  findAdmin() {
-    return this.users.find(user => user.isAdmin === 'true');
-  }
-
-  findOne(id) {
-    return this.users.find(user => user.id === id);
-  }
-
-  changeRole(id) {
-    const user = this.findOne(id);
-    const index = this.users.indexOf(user);
-    this.users[index].role = 'mentor';
-    return this.users[index];
-  }
-
-  findMentors() {
-    return this.users.filter(user => user.role === 'mentor');
-  }
-
-  remove() {
-    this.users = [];
+  static async createAdmin(data) {
+    await this.create({ ...data });
+    const text = 'UPDATE users SET is_admin = true WHERE email=$1 RETURNING *';
+    const values = [data.email];
+    const { rows } = await pool.query(text, values);
+    return rows;
   }
 }
 
-export default new User();
+export default User;
