@@ -93,7 +93,7 @@ class UserController {
     const { userId } = req.params;
 
     try {
-      const rows = await User.changeRole(userId);
+      const rows = await User.updateRole(userId);
       return res.status(200).json({
         status: '200',
         message: 'User account changed to mentor',

@@ -78,7 +78,7 @@ describe('POST /api/v1/auth/signup', () => {
   });
 
   it('should not sign  up a user who is already registered', async () => {
-    const user1 = User.create({ ...data.user00 });
+    await User.create({ ...data.user00 });
 
     user = { ...data.user00 };
     const res = await exec();
@@ -86,7 +86,7 @@ describe('POST /api/v1/auth/signup', () => {
   });
 });
 
-describe.only('POST /api/v1/auth/signin', () => {
+describe('POST /api/v1/auth/signin', () => {
   beforeEach(async () => {
     await pool.query('DELETE FROM users');
   });
@@ -120,7 +120,7 @@ describe.only('POST /api/v1/auth/signin', () => {
     const salt = bcrypt.genSaltSync(10);
     const hash = bcrypt.hashSync(user00.password, salt);
 
-    User.create({
+    await User.create({
       firstName: user00.firstName,
       lastName: user00.lastName,
       email: user00.email,
@@ -151,7 +151,7 @@ describe.only('POST /api/v1/auth/signin', () => {
     const salt = bcrypt.genSaltSync(10);
     const hash = bcrypt.hashSync(user00.password, salt);
 
-    User.create({
+    await User.create({
       firstName: user00.firstName,
       lastName: user00.lastName,
       email: user00.email,
@@ -171,7 +171,7 @@ describe.only('POST /api/v1/auth/signin', () => {
 });
 
 
-describe('PATCH /api/v1/user/:userId', () => {
+describe.only('PATCH /api/v1/user/:userId', () => {
   beforeEach(async () => {
     await pool.query('DELETE FROM users');
   });
@@ -198,9 +198,8 @@ describe('PATCH /api/v1/user/:userId', () => {
   });
 
   it('should not change roles of a non existant user', async () => {
-    User.createAdmin({ ...data.admin });
-    const admin = User.findByEmail(process.env.ADMIN_EMAIL);
-    token = generateToken(admin.id);
+    const rows = await User.createAdmin({ ...data.admin });
+    token = generateToken(rows[0].id);
     userId = 27;
     const res = await exec();
     expect(res).to.have.status(400);
@@ -217,11 +216,10 @@ describe('PATCH /api/v1/user/:userId', () => {
 
   it('should allow admin to change a user to a mentor', async () => {
     const { user00 } = data;
-    const user = User.create({ ...user00 });
-    userId = user.id;
-    User.createAdmin({ ...data.admin });
-    const admin = User.findByEmail(process.env.ADMIN_EMAIL);
-    token = generateToken(admin.id);
+    const rows = await User.createAdmin({ ...data.admin });
+    token = generateToken(rows[0].id);
+    const users = await User.create({ ...user00 });
+    userId = users[0].id;
     const res = await exec();
     expect(res).to.have.status(200);
   });

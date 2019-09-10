@@ -483,6 +483,14 @@ ul li {
   margin: 1em 0;
 }
 
+.name {
+  margin-bottom: 0.5em;
+}
+
+.mentors-name{
+  color: rgb(68, 64, 64);
+}
+
 .sessionForm input, .signUpForm div input, .sessionForm div textarea, .signUpForm div textarea, .signInForm input {
   width: 100%;
   padding: 0.5em;
@@ -518,6 +526,10 @@ ul li {
     .sessionForm , .signUpForm, .signInForm {
       width: 52%;
       margin: 0 auto;
+    }
+
+    .headline-container {
+      text-align: center;
     }
   }
 

@@ -29,6 +29,15 @@ const schema = {
       .required(),
   }),
 
+  idValidator: Joi.object().keys({
+    payload: Joi.number().integer().positive(),
+    iat: Joi.number().integer().positive(),
+  }),
+
+  paramsValidator: Joi.object().keys({
+    userId: Joi.number().integer().positive(),
+
+  }),
 };
 
 export default schema;

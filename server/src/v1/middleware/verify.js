@@ -76,9 +76,10 @@ class Verify {
         });
       }
     } catch (err) {
+      console.log(err)
       return res.status(500).json({
         status: 500,
-        error: err.error,
+        error: err,
       });
     }
 
@@ -98,7 +99,7 @@ class Verify {
     } catch (err) {
       return res.status(500).json({
         status: 500,
-        error: err.error,
+        error: err,
       });
     }
 
@@ -109,13 +110,15 @@ class Verify {
     const id = req.decoded.payload;
     try {
       const rows = await User.findOne(id);
-      if (!rows.length || !rows[0].is_Admin) {
+
+      if (!rows.length || !rows[0].is_admin) {
         return res.status(403).json({
           status: 403,
           error: 'Not an admin',
         });
       }
     } catch (err) {
+      console.log('/////////////////////////////');
       return res.status(500).json({
         status: 500,
         error: err.error,
