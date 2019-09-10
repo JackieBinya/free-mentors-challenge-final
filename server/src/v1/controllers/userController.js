@@ -25,9 +25,9 @@ class UserController {
 
       return res.status(201).json({
         status: 201,
-        token: generateToken(rows[0].id),
         message: 'User created successfully',
         data: {
+          token: generateToken(rows[0].id),
           firstName: rows[0].first_name,
           lastName: rows[0].last_name,
           email: rows[0].email,
@@ -57,9 +57,9 @@ class UserController {
         if (isMatch) {
           return res.status(200).json({
             status: 200,
-            token: generateToken(rows[0].id),
             message: 'User is successfully logged in',
             data: {
+              token: generateToken(rows[0].id),
               firstName: rows[0].first_name,
               lastName: rows[0].last_name,
               email: rows[0].email,
@@ -97,7 +97,18 @@ class UserController {
       return res.status(200).json({
         status: '200',
         message: 'User account changed to mentor',
-        data: rows[0],
+        data: {
+          firstName: rows[0].first_name,
+          lastName: rows[0].last_name,
+          email: rows[0].email,
+          address: rows[0].address,
+          occupation: rows[0].occupation,
+          bio: rows[0].bio,
+          expertise: rows[0].expertise,
+          role: rows[0].role,
+          isAdmin: rows[0].is_admin,
+          id: rows[0].id,
+        },
       });
     } catch (err) {
       return res.status(500).json({
