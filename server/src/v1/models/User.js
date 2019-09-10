@@ -27,6 +27,23 @@ class User {
     const { rows } = await pool.query(text, values);
     return rows;
   }
+
+  static async updateRole(id) {
+    const text = 'UPDATE users SET role = \'mentor\' WHERE id=$1 RETURNING *';
+    const values = [id];
+    const { rows } = await pool.query(text, values);
+    return rows;
+  }
+
+  static async findOne(id) {
+    const { rows } = await pool.query('SELECT * FROM users WHERE id = $1', [id]);
+    return rows;
+  }
+
+  static async findMentors() {
+    const { rows } = await pool.query('SELECT * FROM users WHERE role = $1', ['mentor']);
+    return rows;
+  }
 }
 
 export default User;
