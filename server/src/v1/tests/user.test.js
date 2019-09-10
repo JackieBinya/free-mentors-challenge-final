@@ -179,7 +179,7 @@ describe('POST /api/v1/auth/signin', () => {
 });
 
 
-describe.only('PATCH /api/v1/user/:userId', () => {
+describe('PATCH /api/v1/user/:userId', () => {
   beforeEach(async () => {
     await pool.query('DELETE FROM users');
   });
@@ -211,7 +211,6 @@ describe.only('PATCH /api/v1/user/:userId', () => {
 
   it('should not change roles of a non existant user', async () => {
     const rows = await User.createAdmin({ ...data.admin });
-    console.log(rows[0]);
     token = generateToken(rows[0].id);
     userId = 27;
     const res = await exec();
@@ -220,8 +219,8 @@ describe.only('PATCH /api/v1/user/:userId', () => {
 
   it('should only allow admins to change user roles', async () => {
     const { user00 } = data;
-    const user = User.create({ ...user00 });
-    token = generateToken(user.id);
+    const user = await User.create({ ...user00 });
+    token = generateToken(user[0].id);
     userId = user.id;
     const res = await exec();
     expect(res).to.have.status(403);
