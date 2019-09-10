@@ -11,8 +11,12 @@ import generateToken from '../utils/authService';
 chai.use(chaiHttp);
 const { expect, request } = chai;
 
-describe('GET /api/v1/mentors', () => {
+describe.only('GET /api/v1/mentors', () => {
   beforeEach(async () => {
+    await pool.query('DELETE FROM users');
+  });
+
+  afterEach(async () => {
     await pool.query('DELETE FROM users');
   });
 
@@ -35,17 +39,16 @@ describe('GET /api/v1/mentors', () => {
   });
 
   it('should notify a user if there are no mentors registered in the app', async () => {
-    const user = User.create({ ...data.user00 });
-    token = generateToken(user.id);
+    const user = await User.create({ ...data.user00 });
+    token = generateToken(user[0].id);
     const res = await exec();
     expect(res).to.have.status(404);
   });
 
   it('should get mentors in the app if the user is authenticated', async () => {
-    const user = User.create({ ...data.user00 });
-    token = generateToken(user.id);
-    User.changeRole(user.id);
-
+    const user = await User.create({ ...data.user00 });
+    token = generateToken(user[0].id);
+    await User.updateRole(user[0].id);
     const res = await exec();
     expect(res).to.have.status(200);
   });
