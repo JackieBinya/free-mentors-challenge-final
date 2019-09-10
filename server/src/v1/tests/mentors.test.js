@@ -11,7 +11,7 @@ import generateToken from '../utils/authService';
 chai.use(chaiHttp);
 const { expect, request } = chai;
 
-describe.only('GET /api/v1/mentors', () => {
+describe('GET /api/v1/mentors', () => {
   beforeEach(async () => {
     await pool.query('DELETE FROM users');
   });
@@ -67,8 +67,8 @@ describe('GET /api/v1/mentors:mentorId', () => {
     .set('x-auth-token', token);
 
   it('should not fetch a specific mentor if the user has no token', async () => {
-    const user = User.create({ ...data.user00 });
-    const mentor = User.changeRole(user.id);
+    const user = await User.create({ ...data.user00 });
+    const mentor = await User.updateRole(user.id);
     token = '';
     mentorId = mentor.id;
     const res = await exec();
@@ -76,8 +76,8 @@ describe('GET /api/v1/mentors:mentorId', () => {
   });
 
   it('should not fetch a specific mentor if the user has an invalid token', async () => {
-    const user = User.create({ ...data.user00 });
-    const mentor = User.changeRole(user.id);
+    const user = await User.create({ ...data.user00 });
+    const mentor = await User.updateRole(user.id);
     token = 'yes';
     mentorId = mentor.id;
     const res = await exec();
@@ -85,7 +85,7 @@ describe('GET /api/v1/mentors:mentorId', () => {
   });
 
   it('should notify a user if the mentor does not exist', async () => {
-    const user = User.create({ ...data.user00 });
+    const user = await User.create({ ...data.user00 });
     token = generateToken(user.id);
     mentorId = '5';
     const res = await exec();
@@ -93,12 +93,13 @@ describe('GET /api/v1/mentors:mentorId', () => {
   });
 
   it('should fectch a specific mentor in the app if the user is authenticated', async () => {
-    const user = User.create({ ...data.user00 });
-    token = generateToken(user.id);
-    User.changeRole(user.id);
-    mentorId = user.id;
+    const user = await User.create({ ...data.user00 });
+    token = generateToken(user[0].id);
+    await User.updateRole(user[0].id);
+    mentorId = user[0].id;
 
     const res = await exec();
+
     expect(res).to.have.status(200);
   });
 });
