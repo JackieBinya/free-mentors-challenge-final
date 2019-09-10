@@ -17,6 +17,10 @@ describe('POST /api/v1/auth/signup', () => {
     await pool.query('DELETE FROM users');
   });
 
+  afterEach(async () => {
+    await pool.query('DELETE FROM users');
+  });
+
   let user = {};
 
   const exec = () => request(app)
@@ -88,6 +92,10 @@ describe('POST /api/v1/auth/signup', () => {
 
 describe('POST /api/v1/auth/signin', () => {
   beforeEach(async () => {
+    await pool.query('DELETE FROM users');
+  });
+
+  afterEach(async () => {
     await pool.query('DELETE FROM users');
   });
 
@@ -176,6 +184,10 @@ describe.only('PATCH /api/v1/user/:userId', () => {
     await pool.query('DELETE FROM users');
   });
 
+  afterEach(async () => {
+    await pool.query('DELETE FROM users');
+  });
+
   let userId = '';
   let token = '';
 
@@ -199,6 +211,7 @@ describe.only('PATCH /api/v1/user/:userId', () => {
 
   it('should not change roles of a non existant user', async () => {
     const rows = await User.createAdmin({ ...data.admin });
+    console.log(rows[0]);
     token = generateToken(rows[0].id);
     userId = 27;
     const res = await exec();
