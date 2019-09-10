@@ -78,11 +78,10 @@ header  {
     position: relative;
   }
 
-  @media only screen and (min-width: 1025px) {
+  @media only screen and (min-width: 1024px) {
     .hero {
       width: auto;
       height: 92.85vh;
-      height: auto;
     }
 
     .small {
@@ -193,7 +192,7 @@ header  {
   
  }
 
- @media only screen and (min-width: 1025px){
+ @media only screen and (min-width: 1024px){
    .inner {
       width: auto;
       margin: auto;
@@ -204,7 +203,7 @@ header  {
    }
 
   .wrapper {
-    grid-template-columns: 70% auto;
+    grid-template-columns: 65% auto;
     grid-template-rows: 40% auto;
     grid-template-areas:
       "hero intro"
@@ -462,7 +461,6 @@ ul li {
    background-color: darkred;
  }
 
-
 @media only screen and (min-width: 768px) {
   .container {
     min-width: 80%;;
@@ -497,36 +495,38 @@ ul li {
   width: 100%;
 }
 
-@media only screen and (min-width: 768px){
+ @media only screen and (min-width: 768px){
+  .form-container {
+    height: 90vh;
+    position: fixed;
+    top: 25%;
+    bottom: 20%;
+    right: 10%;
+    left: 10%;
+  } 
+
   .sessionForm, .signUpForm, .signInForm{
-    width: 40%;
+    width: 70%;
     margin: 0 auto;
+    background-color: whitesmoke;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    padding: 2em;
   }
-  
-}
+} 
 
   @media only screen and (min-width: 1024px){
-    .form-container {
-      height: 90vh;
-      position: fixed;
-      top: 25%;
-      bottom: 20%;
-      right: 10%;
-      left: 10%;
-    } 
-    
     .sessionForm , .signUpForm, .signInForm {
-      width: 50%;
+      width: 52%;
       margin: 0 auto;
-      background-color: whitesmoke;
-      box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
-      padding: 2em;
     }
-
-   
   }
 
-    
+  @media only screen and (min-width: 2560px){
+    .sessionForm , .signUpForm, .signInForm {
+      width: 35%;
+      margin: 0 auto;
+    }
+  }
 /************************************************
 * Become a mentor styling
 /**********************************************************************************/
