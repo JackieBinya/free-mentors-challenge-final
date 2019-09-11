@@ -38,26 +38,24 @@ class SessionsController {
     const { sessionId } = req.params;
 
     try {
-      const {
-        mentor_id: mentorId, mentee_id: menteeId, questions, email: menteeEmail, status,
-      } = await Session.decline(sessionId);
-
+      const rows = await Session.decline(sessionId);
+      const mentees = await User.findByEmail(rows[0].mentee_email);
       return res.status(200).json({
         status: 200,
         message: 'SUCCESS',
         data: {
-          sessionId,
-          mentorId,
-          menteeId,
-          questions,
-          menteeEmail,
-          status,
+          sessionId: rows[0].id,
+          mentorId: rows[0].mentor_id,
+          menteeId: mentees[0].id,
+          questions: rows[0].questions,
+          menteeEmail: rows[0].mentee_email,
+          status: rows[0].status,
         },
       });
     } catch (err) {
       return res.status(500).json({
         status: 500,
-        error: err.error,
+        error: err,
       });
     }
   }
@@ -83,7 +81,7 @@ class SessionsController {
     } catch (err) {
       return res.status(500).json({
         status: 500,
-        error: err.error,
+        error: err,
       });
     }
   }
