@@ -37,7 +37,7 @@ const User = {
   user03: {
     firstName: 'Cindy',
     lastName: 'Bar',
-    email: 'cindybar.com',
+    email: 'cindybarcom',
     password: '123456a',
     address: '4 De Wet Terraces, Godwood, Capetown',
     occupation: 'Software Engineer',
@@ -112,7 +112,7 @@ const User = {
   },
 
   session00: {
-    mentorId: 500,
+    mentorId: 70000,
     questions: `Is the earth flat?
     How many times in a yea do we have solar ecclipse`,
   },

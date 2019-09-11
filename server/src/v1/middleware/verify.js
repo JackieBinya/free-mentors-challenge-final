@@ -76,13 +76,34 @@ class Verify {
         });
       }
     } catch (err) {
-      console.log(err)
       return res.status(500).json({
         status: 500,
         error: err,
       });
     }
 
+    next();
+  }
+
+  static async verifySessionUnique(req, res, next) {
+    const menteeId = req.decoded.payload;
+    const { mentorId, questions } = req.body;
+    try {
+      const rows = await User.findOne(menteeId);
+      const mentee = rows[0].email;
+      const sessions = await Session.verify({ mentorId, mentee, questions });
+      if (sessions.length) {
+        return res.status(400).json({
+          status: 400,
+          error: 'Session already created',
+        });
+      }
+    } catch (err) {
+      return res.status(500).json({
+        status: 500,
+        error: err,
+      });
+    }
     next();
   }
 
@@ -118,7 +139,6 @@ class Verify {
         });
       }
     } catch (err) {
-      console.log('/////////////////////////////');
       return res.status(500).json({
         status: 500,
         error: err.error,
@@ -131,7 +151,7 @@ class Verify {
   static async checkMentor(req, res, next) {
     const { mentorId } = req.body;
     try {
-      const rows = User.findOne(mentorId);
+      const rows = await User.findOne(mentorId);
       if (!rows.length || rows[0].role !== 'mentor') {
         return res.status(400).json({
           status: 400,
@@ -141,7 +161,7 @@ class Verify {
     } catch (err) {
       return res.status(500).json({
         status: 500,
-        error: err.error,
+        error: err,
       });
     }
     next();

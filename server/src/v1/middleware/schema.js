@@ -25,7 +25,7 @@ const schema = {
 
   sessionValidator: Joi.object().keys({
     mentorId: Joi.number().integer().positive(),
-    questions: Joi.string().min(3).max(200)
+    questions: Joi.string().trim().min(3).max(200)
       .required(),
   }),
 

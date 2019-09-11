@@ -212,7 +212,7 @@ describe('PATCH /api/v1/user/:userId', () => {
   it('should not change roles of a non existant user', async () => {
     const rows = await User.createAdmin({ ...data.admin });
     token = generateToken(rows[0].id);
-    userId = 27;
+    userId = 2700;
     const res = await exec();
     expect(res).to.have.status(400);
   });
