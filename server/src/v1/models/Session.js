@@ -1,46 +1,45 @@
-import User from './User';
+import pool from '../db/configDB';
 
 class Session {
-  create(data) {
-    const { mentorId, menteeId, questions } = data;
-    const { email: menteeEmail } = User.findOne(menteeId);
-    const newSession = {
-      mentorId,
-      menteeId,
-      questions,
-      menteeEmail,
-      status: 'Pending',
-    };
-    this.sessions.push(newSession);
-    return newSession;
+  static async create({ mentorId, mentee, questions }) {
+    const text = 'INSERT INTO sessions(mentor_id, mentee_email, questions) VALUES($1, $2, $3) RETURNING *';
+    const values = [mentorId, mentee, questions];
+    const { rows } = await pool.query(text, values);
+    return rows;
   }
 
-  decline(id) {
-    const session = this.sessions.find(sessionItem => sessionItem.id === id);
-    const index = this.sessions.indexOf(session);
-    this.sessions[index].status = 'Rejected';
-
-    return this.sessions[index];
+  static async decline(id) {
+    const text = 'UPDATE sessions SET status = \'Rejected\' WHERE id=$1 RETURNING *';
+    const values = [id];
+    const { rows } = await pool.query(text, values);
+    return rows;
   }
 
-  accept(id) {
-    const session = this.sessions.find(sessionItem => sessionItem.id === id);
-    const index = this.sessions.indexOf(session);
-    this.sessions[index].status = 'Accepted';
-
-    return this.sessions[index];
+  static async accept(id) {
+    const text = 'UPDATE sessions SET status = \'Accepted\' WHERE id=$1 RETURNING *';
+    const values = [id];
+    const { rows } = await pool.query(text, values);
+    return rows;
   }
 
-  findOne(id) {
-    return this.sessions.find(session => session.id === id);
+  static async verify({ mentorId, mentee, questions }) {
+    const { rows } = await pool.query('SELECT * FROM sessions WHERE mentor_id = $1 AND mentee_email = $2 AND questions = $3 AND status =  \'Pending\' ', [mentorId, mentee, questions]);
+    return rows;
   }
 
-  findMenteeSessions(id) {
-    return this.sessions.filter(session => session.menteeId === id);
+  static async findOne(id) {
+    const { rows } = await pool.query('SELECT * FROM sessions WHERE id = $1', [id]);
+    return rows;
   }
 
-  findMentorSessions(id) {
-    return this.sessions.filter(session => session.mentorId === id);
+  static async fetchMenteeSession(id) {
+    const sessions = await this.findAll();
+    return sessions.filter(session => session.mentee_id === id);
+  }
+
+  static async fetchMentorSession(id) {
+    const sessions = await this.findAll();
+    return sessions.filter(session => session.mentor_id === id);
   }
 }
 
