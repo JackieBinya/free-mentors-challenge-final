@@ -66,20 +66,20 @@ class SessionsController {
     const { sessionId } = req.params;
 
     try {
-      const {
-        mentorId, menteeId, questions, menteeEmail, status,
-      } = Session.accept(sessionId);
-
+      const rows = await Session.accept(sessionId);
+      const mentees = await User.findByEmail(rows[0].mentee_email)
       return res.status(200).json({
         status: 200,
         message: 'SUCCESS',
         data: {
-          sessionId,
-          mentorId,
-          menteeId,
-          questions,
-          menteeEmail,
-          status,
+          data: {
+            sessionId: rows[0].id,
+            mentorId: rows[0].mentor_id,
+            menteeId: mentees[0].id,
+            questions: rows[0].questions,
+            menteeEmail: rows[0].mentee_email,
+            status: rows[0].status,
+          },
         },
       });
     } catch (err) {

@@ -209,6 +209,7 @@ class Verify {
   static async verifyStatusAccept(req, res, next) {
     try {
       const rows = await Session.findOne(req.params.sessionId);
+      
       if (rows[0].status === 'Accepted') {
         return res.status(400).json({
           status: 400,
