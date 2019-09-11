@@ -31,16 +31,6 @@ class Session {
     const { rows } = await pool.query('SELECT * FROM sessions WHERE id = $1', [id]);
     return rows;
   }
-
-  static async fetchMenteeSession(id) {
-    const sessions = await this.findAll();
-    return sessions.filter(session => session.mentee_id === id);
-  }
-
-  static async fetchMentorSession(id) {
-    const sessions = await this.findAll();
-    return sessions.filter(session => session.mentor_id === id);
-  }
 }
 
 export default Session;
