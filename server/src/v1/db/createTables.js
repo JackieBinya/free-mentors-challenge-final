@@ -3,7 +3,7 @@ import pool from './configDB';
 const queryText = `
 CREATE TABLE IF NOT EXISTS
 users(
-  id BIGSERIAL,
+  id SERIAL,
   first_name VARCHAR(128) NOT NULL,
   last_name VARCHAR(128) NOT NULL,
   email VARCHAR(128) NOT NULL UNIQUE,
@@ -20,7 +20,7 @@ users(
 CREATE TABLE IF NOT EXISTS
 sessions(
   id SERIAL,
-  mentor_id BIGINT,
+  mentor_id INT,
   mentee_email VARCHAR(128) NOT NULL ,
   questions VARCHAR(200) NOT NULL ,
   status VARCHAR(50) DEFAULT 'Pending',

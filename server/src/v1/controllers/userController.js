@@ -84,7 +84,7 @@ class UserController {
     } catch (err) {
       return res.status(500).json({
         status: 500,
-        error: Z_ERRNO,
+        error: err,
       });
     }
   }

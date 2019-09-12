@@ -24,7 +24,7 @@ const schema = {
   }),
 
   sessionValidator: Joi.object().keys({
-    mentorId: Joi.number().integer().positive(),
+    mentorId: Joi.number().integer().positive().strict(),
     questions: Joi.string().trim().min(3).max(200)
       .required(),
   }),

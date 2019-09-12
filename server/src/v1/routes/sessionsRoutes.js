@@ -7,7 +7,7 @@ const router = Router();
 
 router.use(Verify.verifyAuthUser);
 
-router.post('/', Verify.verifyUser, Validate.session, Verify.checkMentor, Verify.verifySessionUnique, SessionsController.createSession);
+router.post('/', Verify.verifyUser, Verify.verifyRole, Validate.session, Verify.checkMentor, Verify.verifySessionUnique, SessionsController.createSession);
 router.patch('/:sessionId/accept', Verify.verifyMentor, Validate.sessionJoiVal, Verify.verifySession, Verify.verifyStatusAccept, SessionsController.acceptRequest);
 router.patch('/:sessionId/reject', Verify.verifyMentor, Validate.sessionJoiVal, Verify.verifySession, Verify.verifyStatusDecline, SessionsController.declineRequest);
 
