@@ -15,7 +15,7 @@ class Verify {
     } catch (err) {
       return res.status(500).json({
         status: 500,
-        error: err.error,
+        error: err,
       });
     }
 
@@ -34,7 +34,7 @@ class Verify {
     } catch (err) {
       return res.status(500).json({
         status: 500,
-        error: err.error,
+        error: err,
       });
     }
 
@@ -141,7 +141,7 @@ class Verify {
     } catch (err) {
       return res.status(500).json({
         status: 500,
-        error: err.error,
+        error: err,
       });
     }
 
@@ -180,7 +180,7 @@ class Verify {
     } catch (err) {
       return res.status(500).json({
         status: 500,
-        error: err.error,
+        error: err,
       });
     }
 
@@ -199,7 +199,7 @@ class Verify {
     } catch (err) {
       return res.status(500).json({
         status: 500,
-        error: err.error,
+        error: err,
       });
     }
 
@@ -219,7 +219,7 @@ class Verify {
     } catch (err) {
       return res.status(500).json({
         status: 500,
-        error: err.error,
+        error: err,
       });
     }
 
