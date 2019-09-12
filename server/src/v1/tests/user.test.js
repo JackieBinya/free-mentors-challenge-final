@@ -229,9 +229,20 @@ describe('PATCH /api/v1/user/:userId', () => {
     const { user00 } = data;
     const user = await User.create({ ...user00 });
     token = generateToken(user[0].id);
-    userId = user.id;
+    userId = user[0].id;
     const res = await exec();
     expect(res).to.have.status(403);
+  });
+
+  it('should allow admin to change a user to a mentor if user is already a mentor', async () => {
+    const { user00 } = data;
+    const rows = await User.createAdmin({ ...data.admin });
+    token = generateToken(rows[0].id);
+    const users = await User.create({ ...user00 });
+    await User.updateRole(users[0].id);
+    userId = users[0].id;
+    const res = await exec();
+    expect(res).to.have.status(400);
   });
 
   it('should allow admin to change a user to a mentor', async () => {

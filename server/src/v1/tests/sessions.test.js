@@ -34,6 +34,16 @@ describe('POST /api/v1/sessions', () => {
     const res = await exec();
     expect(res).to.have.status(400);
   });
+
+  it('should not create a session if request is made by a mentor', async () => {
+    const users = await User.create({ ...data.user00 });
+    await User.updateRole(users[0].id);
+    token = generateToken(users[0].id);
+    session = data.session00;
+    session.mentorId = users[0].id;
+    const res = await exec();
+    expect(res).to.have.status(403);
+  });
 });
 
 describe('PATCH /api/v1/sessions/:sessionId/accept', () => {
@@ -92,22 +102,6 @@ describe('PATCH /api/v1/sessions/:sessionId/accept', () => {
     const res = await exec();
     expect(res).to.have.status(400);
   });
-});
-
-describe('PATCH /api/v1/sessions/:sessionId/reject', () => {
-  beforeEach(async () => {
-    await pool.query('DELETE FROM users');
-    await pool.query('DELETE FROM sessions');
-  });
-
-  let sessionId = '';
-
-  let token = '';
-
-  const exec = () => request(app)
-    .patch(`/api/v1/sessions/${sessionId}/reject`)
-    .set('x-auth-token', token);
-
 
   it('should allow a mentor to accept a session request if session id is valid and mentor is authenticated', async () => {
     const users = await User.create({ ...data.user00 });
@@ -128,5 +122,91 @@ describe('PATCH /api/v1/sessions/:sessionId/reject', () => {
 
     const res = await exec();
     expect(res).to.have.status(200);
+  });
+
+
+  it('should not allow a mentor to accept a session twice', async () => {
+    const users = await User.create({ ...data.user00 });
+
+    await User.updateRole(users[0].id);
+
+    token = generateToken(users[0].id);
+
+    const rows = await User.create({ ...data.user18 });
+
+    const { questions } = data.session00;
+
+    const newSession = await Session.create({
+      mentorId: users[0].id, mentee: rows[0].email, questions,
+    });
+
+    await Session.accept(newSession[0].id);
+
+    sessionId = newSession[0].id;
+
+    const res = await exec();
+
+    expect(res).to.have.status(400);
+  });
+});
+
+describe('PATCH /api/v1/sessions/:sessionId/reject', () => {
+  beforeEach(async () => {
+    await pool.query('DELETE FROM users');
+    await pool.query('DELETE FROM sessions');
+  });
+
+  let sessionId = '';
+
+  let token = '';
+
+  const exec = () => request(app)
+    .patch(`/api/v1/sessions/${sessionId}/reject`)
+    .set('x-auth-token', token);
+
+
+  it('should allow a mentor to decline a session request if session id is valid and mentor is authenticated', async () => {
+    const users = await User.create({ ...data.user00 });
+
+    await User.updateRole(users[0].id);
+
+    token = generateToken(users[0].id);
+
+    const rows = await User.create({ ...data.user18 });
+
+    const { questions } = data.session00;
+
+    const newSession = await Session.create({
+      mentorId: users[0].id, mentee: rows[0].email, questions,
+    });
+
+    sessionId = newSession[0].id;
+
+    const res = await exec();
+    expect(res).to.have.status(200);
+  });
+
+  it('should not allow a mentor to reject a session more than once', async () => {
+    const users = await User.create({ ...data.user00 });
+
+    await User.updateRole(users[0].id);
+
+    token = generateToken(users[0].id);
+
+    const rows = await User.create({ ...data.user18 });
+
+    const { questions } = data.session00;
+
+    const newSession = await Session.create({
+      mentorId: users[0].id, mentee: rows[0].email, questions,
+    });
+
+    await Session.decline(newSession[0].id);
+
+    sessionId = newSession[0].id;
+
+    const res = await exec();
+
+    expect(res).to.have.status(400);
   });
 });

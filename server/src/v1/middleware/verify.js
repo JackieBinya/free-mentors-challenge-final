@@ -85,6 +85,46 @@ class Verify {
     next();
   }
 
+  static async checkRole(req, res, next) {
+    const { userId } = req.params;
+    try {
+      const rows = await User.findOne(userId);
+      if (rows[0].role === 'mentor') {
+        return res.status(400).json({
+          status: 400,
+          error: 'User is already a mentor',
+        });
+      }
+    } catch (err) {
+      return res.status(500).json({
+        status: 500,
+        error: err,
+      });
+    }
+
+    next();
+  }
+
+  static async verifyRole(req, res, next) {
+    const id = req.decoded.payload;
+    try {
+      const rows = await User.findOne(id);
+      if (rows[0].role === 'mentor') {
+        return res.status(403).json({
+          status: 403,
+          error: 'Access denied',
+        });
+      }
+    } catch (err) {
+      return res.status(500).json({
+        status: 500,
+        error: err,
+      });
+    }
+
+    next();
+  }
+
   static async verifySessionUnique(req, res, next) {
     const menteeId = req.decoded.payload;
     const { mentorId, questions } = req.body;
@@ -229,7 +269,7 @@ class Verify {
   static async verifyStatusDecline(req, res, next) {
     try {
       const rows = await Session.findOne(req.params.sessionId);
-      if (rows.status === 'Rejected') {
+      if (rows[0].status === 'Rejected') {
         return res.status(400).json({
           status: 400,
           error: 'Session has already been rejected',
