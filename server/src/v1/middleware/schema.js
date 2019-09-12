@@ -28,6 +28,18 @@ const schema = {
     questions: Joi.string().trim().min(3).max(200)
       .required(),
   }),
+
+  mentorIdValidator: Joi.object().keys({
+    mentorId: Joi.number().integer().positive(),
+  }),
+
+  sessionIdValidator: Joi.object().keys({
+    sessionId: Joi.number().integer().positive(),
+  }),
+
+  userIdValidator: Joi.object().keys({
+    userId: Joi.number().integer().positive(),
+  }),
 };
 
 export default schema;
