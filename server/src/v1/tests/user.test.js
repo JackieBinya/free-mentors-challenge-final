@@ -209,6 +209,14 @@ describe('PATCH /api/v1/user/:userId', () => {
     expect(res).to.have.status(401);
   });
 
+  it('should not change roles if user id is not a number', async () => {
+    const rows = await User.createAdmin({ ...data.admin });
+    token = generateToken(rows[0].id);
+    userId = 'twenty';
+    const res = await exec();
+    expect(res).to.have.status(400);
+  });
+
   it('should not change roles of a non existant user', async () => {
     const rows = await User.createAdmin({ ...data.admin });
     token = generateToken(rows[0].id);

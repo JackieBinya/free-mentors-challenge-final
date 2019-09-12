@@ -79,6 +79,19 @@ describe('PATCH /api/v1/sessions/:sessionId/accept', () => {
     const res = await exec();
     expect(res).to.have.status(403);
   });
+
+  it('should not allow session request to be updated if session id is invalid type/format', async () => {
+    const users = await User.create({ ...data.user00 });
+
+    await User.updateRole(users[0].id);
+
+    token = generateToken(users[0].id);
+
+    sessionId = 'fifty';
+
+    const res = await exec();
+    expect(res).to.have.status(400);
+  });
 });
 
 describe('PATCH /api/v1/sessions/:sessionId/reject', () => {

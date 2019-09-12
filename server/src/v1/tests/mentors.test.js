@@ -84,6 +84,17 @@ describe('GET /api/v1/mentors:mentorId', () => {
     expect(res).to.have.status(401);
   });
 
+  it('should not fetch a specific mentor if the mentorId is not a number', async () => {
+    const user = await User.create({ ...data.user00 });
+    token = generateToken(user[0].id);
+
+    mentorId = 'sixty';
+
+    const res = await exec();
+
+    expect(res).to.have.status(400);
+  });
+
   it('should notify a user if the mentor does not exist', async () => {
     const user = await User.create({ ...data.user00 });
     token = generateToken(user.id);

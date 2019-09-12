@@ -114,7 +114,7 @@ class Verify {
       if (!rows.length) {
         return res.status(403).json({
           status: 403,
-          error: `The user with id ${userId} does not exist in the app!`,
+          error: 'Access denied',
         });
       }
     } catch (err) {
@@ -209,7 +209,7 @@ class Verify {
   static async verifyStatusAccept(req, res, next) {
     try {
       const rows = await Session.findOne(req.params.sessionId);
-      
+
       if (rows[0].status === 'Accepted') {
         return res.status(400).json({
           status: 400,
@@ -238,7 +238,7 @@ class Verify {
     } catch (err) {
       return res.status(500).json({
         status: 500,
-        error: err.error,
+        error: err,
       });
     }
 
