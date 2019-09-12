@@ -2,6 +2,8 @@
 
 Free Mentors is a social initiative where accomplished professionals become role models to young people to provide free mentorship sessions.
 
+[![Build Status](https://travis-ci.org/JackieBinya/free-mentors-challenge-final.svg?branch=develop)](https://travis-ci.org/JackieBinya/free-mentors-challenge-final) [![Coverage Status](https://coveralls.io/repos/github/JackieBinya/free-mentors-challenge-final/badge.svg)](https://coveralls.io/github/JackieBinya/free-mentors-challenge-final) [![Test Coverage](https://api.codeclimate.com/v1/badges/60403b9821bad61e7ac1/test_coverage)](https://codeclimate.com/github/JackieBinya/free-mentors-challenge-final/test_coverage) 
+
 ## Table of Contents
  1. [Prerequisites](#Prerequisites)
  2. [Tools](#Tools)
@@ -76,14 +78,14 @@ These are the endpoints for this api :
 
 ## External Links
 
-- UI Template for the application can be found here [Github pages.](https://jackiebinya.github.io/free-mentors-challenge-2/UI/)
+- UI Template for the application can be found here [Github pages.](https://jackiebinya.github.io/free-mentors-challenge-final/UI/)
 
 - Pivotal Tracker Stories can found here [Pivotal tracker.](https://www.pivotaltracker.com/n/projects/2382168)
 
-- Application was deployed to Heroku. Use public URL https://free-mentors-ch2.herokuapp.com/ with API endpoints.
+- Application was deployed to Heroku. Use public URL https://free-mentors-final.herokuapp.com/ with API endpoints.
 
 - API Documenttion was generated with [swagger.](https://free-mentors-ch2.herokuapp.com/api-docs/)
 
 ## Author
 
-- [I'm Nubian](jacquelinebinya@gmail.com)
+- [I'm Nubian](#)
