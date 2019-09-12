@@ -39,7 +39,7 @@ Before you clone this repo ensure that you have the following already installed 
 To clone this repo run the following command
 
 ```sh
-git@github.com:JackieBinya/free-mentors-challenge-2.git
+git@github.com:JackieBinya/free-mentors-challenge-final.git
 ```
 
 ## Set up the server
